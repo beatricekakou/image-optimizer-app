@@ -17,6 +17,7 @@ function App() {
                 setUploadedImageName={setUploadedImageName} 
                 setOriginalImageUrl={setOriginalImageUrl} 
                 setOriginalImageInfo={setOriginalImageInfo}
+                setOptimizedImageUrl={setOptimizedImageUrl} // reset optimized image URL
             />
             {uploadedImageName && (
                 <ImageDownloader 

@@ -2,11 +2,11 @@ import React from 'react';
 
 function ImageComparison({ originalImageUrl, optimizedImageUrl, originalImageInfo, optimizedImageInfo }) {
     return (
-        <div style={{ display: "flex", justifyContent: "center", gap: "20px", marginTop: "20px" }}>
+        <div style={{ display: "flex", justifyContent: "center", gap: "40px", marginTop: "40px" }}>
             {originalImageUrl && (
                 <div style={{ textAlign: "center" }}>
                     <h3>Original Image</h3>
-                    <img src={originalImageUrl} alt="Original" style={{ maxWidth: "300px", height: "auto" }} />
+                    <img src={originalImageUrl} alt="Original" style={{ maxWidth: "400px", height: "auto", borderRadius: "8px" }} />
                     {originalImageInfo && (
                         <div>
                             <p><strong>Size:</strong> {originalImageInfo.size} bytes</p>
@@ -18,7 +18,7 @@ function ImageComparison({ originalImageUrl, optimizedImageUrl, originalImageInf
             {optimizedImageUrl && (
                 <div style={{ textAlign: "center" }}>
                     <h3>Optimized Image</h3>
-                    <img src={optimizedImageUrl} alt="Optimized" style={{ maxWidth: "300px", height: "auto" }} />
+                    <img src={optimizedImageUrl} alt="Optimized" style={{ maxWidth: "400px", height: "auto", borderRadius: "8px" }} />
                     {optimizedImageInfo && (
                         <div>
                             <p><strong>Size:</strong> {optimizedImageInfo.size} bytes</p>

@@ -25,7 +25,7 @@ public class ImageOptimizerController {
         try {
             String uploadedImage = imageOptimizerService.uploadImage(image);
 
-            if(uploadedImage != null && !uploadedImage.isEmpty())
+            if (Objects.nonNull(uploadedImage) && !uploadedImage.isEmpty())
                 uploadedImage = uploadedImage.substring(0, uploadedImage.lastIndexOf('.'));
 
             return Objects.isNull(uploadedImage)
