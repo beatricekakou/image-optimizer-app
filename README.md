@@ -4,7 +4,7 @@
 
 ## Overview
 
-This is a full-stack web application that allows users to upload images (**PNG**, **BMP**, **GIF**), optimizes them by converting to **WebP** format, and provides a comparison between the original and optimized images.
+This is a full-stack web application that allows users to upload images (**PNG**, **JPG**, **GIF**), optimizes them by converting to **WebP** format, and provides a comparison between the original and optimized images.
 The application consists of a **Java Spring Boot** backend and a **React** frontend. Both backend and frontend are containerized using **Docker** and deployed as **Azure Web Apps**.
 
 ## Table of Contents
