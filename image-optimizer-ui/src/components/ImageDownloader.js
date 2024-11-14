@@ -1,13 +1,26 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 function ImageDownloader({ uploadedImageName, setOptimizedImageUrl, setOptimizedImageInfo }) {
+    const [loading, setLoading] = useState(true);
+    const maxRetries = 20; //max retries num
+
     useEffect(() => {
+        let timeoutCounter = 0;
+
         const pollForOptimizedImage = () => {
             const interval = setInterval(async () => {
+                if (timeoutCounter >= maxRetries) {
+                    console.error("maximum retries reached. stopping attempts to retrieve optimized image.");
+                    clearInterval(interval);
+                    setLoading(false);
+                    alert("Unable to retrieve optimized image, please try again later.");
+                    return;
+                }
+
                 try {
-                    debugger;
-                    const response = await axios.get(`http://localhost:8080/api/images/optimized/${uploadedImageName}`, {
+                    const apiUrl = `{process.env.BASE_URL_BE}/azurewebsites.net`;
+                    const response = await axios.get(`${process.env.REACT_APP_BASE_URL_BE}/api/images/optimized/${uploadedImageName}`, {
                         responseType: "arraybuffer",
                     });
 
@@ -17,27 +30,34 @@ function ImageDownloader({ uploadedImageName, setOptimizedImageUrl, setOptimized
 
                     // set optimized image info
                     setOptimizedImageInfo({
-                        size: response.data.byteLength,
-                        type: 'image/webp'
+                        size: (response.data.byteLength / (1024 * 1024)).toFixed(2),
+                        type: 'image/webp',
                     });
 
-                    clearInterval(interval); // stop polling once the image is ready
+                    setLoading(false); // stop loading when image is ready
+                    clearInterval(interval); // stop polling
                 } catch (error) {
                     if (error.response && error.response.status !== 404) {
-                        console.error("Error retrieving optimized image:", error);
+                        console.error("error retrieving optimized image:", error);
                         clearInterval(interval);
-                        alert("An error occurred. Check the console for details.");
+                        alert("An error occurred, check the console for details.");
+                        setLoading(false);
                     }
                 }
-            }, 2000); // poll every 2 seconds
+
+                timeoutCounter++; // incrementing the retries counter
+            }, 3000); // poll every 3 seconds
         };
 
         if (uploadedImageName) {
+            setLoading(true);
             pollForOptimizedImage();
         }
+
+        return () => clearInterval(pollForOptimizedImage);
     }, [uploadedImageName, setOptimizedImageUrl, setOptimizedImageInfo]);
 
-    return null; // this component only performs polling and does not render anything
+    return loading ? <div>Loading optimized image...</div> : null;
 }
 
 export default ImageDownloader;
