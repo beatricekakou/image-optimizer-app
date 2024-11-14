@@ -28,7 +28,7 @@ function ImageUploader({ setUploadedImageName, setOriginalImageUrl, setOriginalI
 
         // set original image info
         setOriginalImageInfo({
-            size: file.size,
+            size: (file.size / (1024 * 1024)).toFixed(2),
             type: file.type,
         });
     };
@@ -48,7 +48,11 @@ function ImageUploader({ setUploadedImageName, setOriginalImageUrl, setOriginalI
 
         try {
             setLoading(true);
-            const uploadResponse = await axios.post(`${process.env.REACT_APP_BASE_URL_BE}/api/images/upload`, formData);
+            const uploadResponse = await axios.post(`${process.env.REACT_APP_BASE_URL_BE}/api/images/upload`, formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            });
 
             const uploadedImageName = uploadResponse.data;
             setUploadedImageName(uploadedImageName);

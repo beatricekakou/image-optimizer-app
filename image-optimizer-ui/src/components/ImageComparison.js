@@ -9,7 +9,7 @@ function ImageComparison({ originalImageUrl, optimizedImageUrl, originalImageInf
                     <img src={originalImageUrl} alt="Original" style={{ maxWidth: "400px", height: "auto", borderRadius: "8px" }} />
                     {originalImageInfo && (
                         <div>
-                            <p><strong>Size:</strong> {originalImageInfo.size} bytes</p>
+                            <p><strong>Size:</strong> {originalImageInfo.size} MB</p>
                             <p><strong>Type:</strong> {originalImageInfo.type}</p>
                         </div>
                     )}
@@ -21,7 +21,7 @@ function ImageComparison({ originalImageUrl, optimizedImageUrl, originalImageInf
                     <img src={optimizedImageUrl} alt="Optimized" style={{ maxWidth: "400px", height: "auto", borderRadius: "8px" }} />
                     {optimizedImageInfo && (
                         <div>
-                            <p><strong>Size:</strong> {optimizedImageInfo.size} bytes</p>
+                            <p><strong>Size:</strong> {optimizedImageInfo.size} MB</p>
                             <p><strong>Type:</strong> {optimizedImageInfo.type}</p>
                         </div>
                     )}

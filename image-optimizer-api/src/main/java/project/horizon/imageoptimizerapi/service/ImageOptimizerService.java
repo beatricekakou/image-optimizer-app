@@ -17,7 +17,7 @@ public class ImageOptimizerService {
 
     private static final Logger logger = Logger.getLogger(ImageOptimizerService.class.getName());
 
-    @Value("${azure.storage.connection-string")
+    @Value("${azure.storage.connection-string}")
     private String connectionStringTemplate;
 
     @Value("${azure.storage.account-name}")
@@ -45,7 +45,7 @@ public class ImageOptimizerService {
      */
     public String uploadImage(MultipartFile image) throws IOException {
         String originalImageName = image.getOriginalFilename();
-        String imageExtension = originalImageName.substring(originalImageName.lastIndexOf('.'));
+        String imageFormat = originalImageName.substring(originalImageName.lastIndexOf('.'));
         String imageName = Guid.GUID.newGuid().toGuidString();
         imageName = imageName.replace("{","").replace("}","");
 
@@ -53,7 +53,7 @@ public class ImageOptimizerService {
             var inputBlobClient = new BlobClientBuilder()
                     .connectionString(getConnectionString())
                     .containerName(inputContainerName)
-                    .blobName(imageName+imageExtension)
+                    .blobName(imageName+imageFormat)
                     .buildClient();
 
 

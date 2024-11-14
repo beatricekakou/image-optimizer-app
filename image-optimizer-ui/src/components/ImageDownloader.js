@@ -3,7 +3,7 @@ import axios from 'axios';
 
 function ImageDownloader({ uploadedImageName, setOptimizedImageUrl, setOptimizedImageInfo }) {
     const [loading, setLoading] = useState(true);
-    const maxRetries = 10; //max retries num
+    const maxRetries = 20; //max retries num
 
     useEffect(() => {
         let timeoutCounter = 0;
@@ -30,7 +30,7 @@ function ImageDownloader({ uploadedImageName, setOptimizedImageUrl, setOptimized
 
                     // set optimized image info
                     setOptimizedImageInfo({
-                        size: response.data.byteLength,
+                        size: (response.data.byteLength / (1024 * 1024)).toFixed(2),
                         type: 'image/webp',
                     });
 
@@ -46,7 +46,7 @@ function ImageDownloader({ uploadedImageName, setOptimizedImageUrl, setOptimized
                 }
 
                 timeoutCounter++; // incrementing the retries counter
-            }, 2000); // poll every 2 seconds
+            }, 3000); // poll every 3 seconds
         };
 
         if (uploadedImageName) {

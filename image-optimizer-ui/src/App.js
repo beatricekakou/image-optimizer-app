@@ -12,7 +12,8 @@ function App() {
 
     return (
         <div style={{ textAlign: "center", marginTop: "50px" }}>
-            <h1>Image Optimizer</h1>
+            <h1>Image Converter</h1>
+            <p>It supports PNG, JPG and GIF.</p>
             <ImageUploader 
                 setUploadedImageName={setUploadedImageName} 
                 setOriginalImageUrl={setOriginalImageUrl} 
