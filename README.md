@@ -1,7 +1,5 @@
 # image-optimizer-app
 
-**Image Optimizer Application**
-
 ## Overview
 
 A web application that allows users to upload images (**PNG**, **JPG**, **GIF**), optimizes them by converting to **WebP** format, and compares the original and optimized images. It consists of a **Java Spring Boot** backend and a **React** frontend, both containerized with **Docker** and deployed on **Azure Web Apps**.
