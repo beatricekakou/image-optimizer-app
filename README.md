@@ -4,59 +4,31 @@
 
 ## Overview
 
-This is a full-stack web application that allows users to upload images (**PNG**, **JPG**, **GIF**), optimizes them by converting to **WebP** format, and provides a comparison between the original and optimized images.
-The application consists of a **Java Spring Boot** backend and a **React** frontend. Both backend and frontend are containerized using **Docker** and deployed as **Azure Web Apps**.
-
-## Table of Contents
-
-- [Features](#features)
-- [Technologies Used](#technologies-used)
-- [Prerequisites](#prerequisites)
-- [Installation](#installation)
-  - [Backend Setup](#backend-setup)
-  - [Frontend Setup](#frontend-setup)
-- [Running the Application](#running-the-application)
-- [Deployment](#deployment)
-  - [Dockerization](#dockerization)
-  - [Azure Deployment](#azure-deployment)
-- [Usage](#usage)
-- [Project Structure](#project-structure)
-- [Contact](#contact)
+A web application that allows users to upload images (**PNG**, **JPG**, **GIF**), optimizes them by converting to **WebP** format, and compares the original and optimized images. It consists of a **Java Spring Boot** backend and a **React** frontend, both containerized with **Docker** and deployed on **Azure Web Apps**.
 
 ## Features
 
-- **Upload images** in various formats (**PNG**, **JPG**, **GIF**).
-- **Convert and optimize images** to **WebP** format on the backend.
-- **Display original and optimized images** side by side with size and type information.
-- **Polling mechanism** to retrieve the optimized image once processing is complete.
-- **Frontend and backend are containerized** and can be deployed independently.
+- Upload images in **PNG**, **JPG**, or **GIF** formats.
+- Convert images to **WebP** format on the backend.
+- Display original and optimized images side by side with size and type information.
+- Polling mechanism to retrieve the optimized image after processing.
+- Independent deployment of frontend and backend via Docker containers.
 
 ## Technologies Used
 
-### Backend
+**Backend**: Java Spring Boot, Azure Blob Storage SDK, Docker
 
-- **Java Spring Boot**
-- **Azure Blob Storage SDK**
-- **Docker**
+**Frontend**: React, Axios, Docker
 
-### Frontend
-
-- **React**
-- **Axios** for HTTP requests
-- **Docker**
-
-### Deployment
-
-- **Azure Web Apps** for hosting both frontend and backend
-- **Azure Blob Storage** for storing original and optimized images
+**Deployment**: Azure Web Apps, Azure Blob Storage
 
 ## Prerequisites
 
-- **Java Development Kit (JDK) 11 or higher**
-- **Node.js** and **npm**
-- **Docker**
-- **Azure Account** with access to Azure Blob Storage and Azure Web Apps
-- **Azure Storage Account** with two containers:
+- Java Development Kit (JDK) 11 or higher
+- Node.js and npm
+- Docker
+- Azure account with access to Azure Blob Storage and Azure Web Apps
+- Azure Storage Account with two containers:
   - `image-input` for original images
   - `image-output` for optimized images
 
@@ -73,12 +45,12 @@ The application consists of a **Java Spring Boot** backend and a **React** front
 
 2. **Set Up Environment Variables**
 
-   Create an `application.properties` file in `src/main/resources/` with the following content:
+   Create `application.properties` in `src/main/resources/`:
 
    ```properties
-   azure.storage.connection-string=DefaultEndpointsProtocol=https;AccountName=your_account_name;AccountKey=your_account_key;EndpointSuffix=core.windows.net
-   azure.storage.account-name=your_account_name
-   azure.storage.account-key=your_account_key
+   azure.storage.connection-string=Your_Connection_String
+   azure.storage.account-name=Your_Account_Name
+   azure.storage.account-key=Your_Account_Key
    azure.storage.input-container=image-input
    azure.storage.output-container=image-output
    ```
@@ -105,7 +77,7 @@ The application consists of a **Java Spring Boot** backend and a **React** front
 
 3. **Set Up Environment Variables**
 
-   Create a `.env` file in the `frontend` directory with the following content:
+   Create `.env` in the `frontend` directory:
 
    ```env
    REACT_APP_BASE_URL_BE=http://localhost:8080
@@ -113,104 +85,34 @@ The application consists of a **Java Spring Boot** backend and a **React** front
 
 ## Running the Application
 
-### Running Backend Locally
+### Backend
 
 ```bash
 cd backend
 ./mvnw spring-boot:run
 ```
 
-The backend server will start on [http://localhost:8080](http://localhost:8080).
+Backend runs on [http://localhost:8080](http://localhost:8080).
 
-### Running Frontend Locally
+### Frontend
 
 ```bash
 cd frontend
 npm start
 ```
 
-The frontend application will start on [http://localhost:3000](http://localhost:3000).
-
-## Deployment
-
-### Dockerization
-
-Both the backend and frontend have their own `Dockerfile` for containerization.
-
-### Azure Deployment
-
-#### Deploying Backend to Azure Web App
-
-1. **Create an Azure Web App**
-
-   - Use the Azure Portal to create a new Web App for containers.
-   - Choose **Docker Container** as the publishing option.
-
-2. **Push Docker Image to Azure Container Registry (ACR)**
-
-   - **Build** the Docker image:
-
-     ```bash
-     docker build -t youracrname.azurecr.io/image-optimizer-backend:latest .
-     ```
-
-   - **Push** the image to ACR:
-
-     ```bash
-     docker push youracrname.azurecr.io/image-optimizer-backend:latest
-     ```
-
-3. **Configure the Web App**
-
-   - Set the image source to ACR and select the `image-optimizer-backend` image.
-   - Configure application settings with environment variables as specified in the `application.properties` file.
-
-#### Deploying Frontend to Azure Web App
-
-1. **Create an Azure Web App**
-
-   - Create another Web App for the frontend.
-
-2. **Push Docker Image to Azure Container Registry**
-
-   - **Build** the Docker image:
-
-     ```bash
-     docker build -t youracrname.azurecr.io/image-optimizer-frontend:latest .
-     ```
-
-   - **Push** the image to ACR:
-
-     ```bash
-     docker push youracrname.azurecr.io/image-optimizer-frontend:latest
-     ```
-
-3. **Configure the Web App**
-
-   - Set the image source to ACR and select the `image-optimizer-frontend` image.
-   - Ensure the `REACT_APP_BASE_URL_BE` environment variable points to the backend URL.
+Frontend runs on [http://localhost:3000](http://localhost:3000).
 
 ## Usage
 
-1. **Access the Frontend**
+1. **Access the Frontend**: Open [http://localhost:3000](http://localhost:3000) in a web browser.
 
-   Open the frontend URL in your web browser.
+2. **Upload an Image**: Click "Choose File" to select an image, then "Upload & Optimize".
 
-2. **Upload an Image**
+3. **Wait for Optimization**: The app polls the backend until the optimized image is ready.
 
-   - Click on **"Choose File"** to select an image.
-   - Click on **"Upload & Optimize"** to upload the image.
-
-3. **Wait for Optimization**
-
-   - The application will poll the backend every few seconds to check if the optimized image is ready.
-   - Once ready, both the original and optimized images will be displayed side by side.
-
-4. **Compare Images**
-
-   - View the **size** and **type** information for both images.
-   - Observe the reduction in size due to optimization.
+4. **Compare Images**: View both images side by side with their size and type.
 
 ---
 
-Thank you for using the **Image Optimizer Application**! If you encounter any issues or have suggestions for improvements, feel free to reach out.
+Thank you for using the **Image Optimizer Application**! If you have any issues or suggestions, feel free to reach out.
