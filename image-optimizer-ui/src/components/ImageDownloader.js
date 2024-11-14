@@ -3,18 +3,26 @@ import axios from 'axios';
 
 function ImageDownloader({ uploadedImageName, setOptimizedImageUrl, setOptimizedImageInfo }) {
     const [loading, setLoading] = useState(true);
+    const maxRetries = 10; //max retries num
 
     useEffect(() => {
+        let timeoutCounter = 0;
+
         const pollForOptimizedImage = () => {
             const interval = setInterval(async () => {
-                const maxTimeOutCounter = 5;
-                let timeoutCounter = 0;
+                if (timeoutCounter >= maxRetries) {
+                    console.error("maximum retries reached. stopping attempts to retrieve optimized image.");
+                    clearInterval(interval);
+                    setLoading(false);
+                    alert("Unable to retrieve optimized image, please try again later.");
+                    return;
+                }
+
                 try {
-                    const apiUrl = "http://localhost:8080";
-                    const response = await axios.get(`${apiUrl}/api/images/optimized/${uploadedImageName}`, {
+                    const apiUrl = `{process.env.BASE_URL_BE}/azurewebsites.net`;
+                    const response = await axios.get(`${process.env.REACT_APP_BASE_URL_BE}/api/images/optimized/${uploadedImageName}`, {
                         responseType: "arraybuffer",
                     });
-                    timeoutCounter++;
 
                     const blob = new Blob([response.data], { type: 'image/webp' });
                     const imageUrl = URL.createObjectURL(blob);
@@ -29,13 +37,15 @@ function ImageDownloader({ uploadedImageName, setOptimizedImageUrl, setOptimized
                     setLoading(false); // stop loading when image is ready
                     clearInterval(interval); // stop polling
                 } catch (error) {
-                    if ((error.response && error.response.status !== 404) || timeoutCounter == maxTimeOutCounter) {
-                        console.error("Error retrieving optimized image:", error);
+                    if (error.response && error.response.status !== 404) {
+                        console.error("error retrieving optimized image:", error);
                         clearInterval(interval);
-                        alert("An error occurred. Check the console for details.");
+                        alert("An error occurred, check the console for details.");
                         setLoading(false);
                     }
                 }
+
+                timeoutCounter++; // incrementing the retries counter
             }, 2000); // poll every 2 seconds
         };
 
@@ -43,6 +53,8 @@ function ImageDownloader({ uploadedImageName, setOptimizedImageUrl, setOptimized
             setLoading(true);
             pollForOptimizedImage();
         }
+
+        return () => clearInterval(pollForOptimizedImage);
     }, [uploadedImageName, setOptimizedImageUrl, setOptimizedImageInfo]);
 
     return loading ? <div>Loading optimized image...</div> : null;
