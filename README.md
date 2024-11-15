@@ -37,7 +37,7 @@ A web application that allows users to upload images (**PNG**, **JPG**, **GIF**)
 1. **Clone the Repository**
 
    ```bash
-   git clone [https://github.com/yourusername/image-optimizer.git](https://github.com/beatricekakou/image-optimizer-app.git
+   git clone https://github.com/beatricekakou/image-optimizer-app.git
    cd image-optimizer/image-optimizer-api
    ```
 
