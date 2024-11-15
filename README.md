@@ -22,7 +22,7 @@ A web application that allows users to upload images (**PNG**, **JPG**, **GIF**)
 
 ## Prerequisites
 
-- Java Development Kit (JDK) 11 or higher
+- Java Development Kit (JDK) 17 or higher
 - Node.js and npm
 - Docker
 - Azure account with access to Azure Blob Storage and Azure Web Apps
@@ -37,8 +37,8 @@ A web application that allows users to upload images (**PNG**, **JPG**, **GIF**)
 1. **Clone the Repository**
 
    ```bash
-   git clone https://github.com/yourusername/image-optimizer.git
-   cd image-optimizer/backend
+   git clone [https://github.com/yourusername/image-optimizer.git](https://github.com/beatricekakou/image-optimizer-app.git
+   cd image-optimizer/image-optimizer-api
    ```
 
 2. **Set Up Environment Variables**
@@ -90,7 +90,7 @@ cd backend
 ./mvnw spring-boot:run
 ```
 
-Backend runs on [http://localhost:8080](http://localhost:8080).
+Backend runs on http://localhost:8080.
 
 ### Frontend
 
@@ -99,11 +99,11 @@ cd frontend
 npm start
 ```
 
-Frontend runs on [http://localhost:3000](http://localhost:3000).
+Frontend runs on http://localhost:3000.
 
 ## Usage
 
-1. **Access the Frontend**: Open [http://localhost:3000](http://localhost:3000) in a web browser.
+1. **Access the Frontend**: Open http://localhost:3000 in a web browser.
 
 2. **Upload an Image**: Click "Choose File" to select an image, then "Upload & Optimize".
 
